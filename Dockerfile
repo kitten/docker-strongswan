@@ -12,7 +12,20 @@ RUN mkdir -p /usr/src/strongswan \
 	&& curl -SL "https://download.strongswan.org/strongswan-$STRONGSWAN_VERSION.tar.gz" \
 	| tar -zxC /usr/src/strongswan --strip-components 1 \
 	&& cd /usr/src/strongswan \
-	&& ./configure --prefix=/usr --sysconfdir=/etc --enable-kernel-libipsec \
+	&& ./configure --prefix=/usr --sysconfdir=/etc \
+		--enable-kernel-libipsec \
+		--enable-eap-radius \
+		--enable-eap-mschapv2 \
+		--enable-eap-identity \
+		--enable-eap-md5 \
+		--enable-eap-mschapv2 \
+		--enable-eap-tls \
+		--enable-eap-ttls \
+		--enable-eap-peap \
+		--enable-eap-tnc \
+		--enable-eap-dynamic \
+		--enable-xauth-eap \
+		--enable-openssl \
 	&& make \
 	&& make install \
 	&& rm -rf /usr/src/strongswan
