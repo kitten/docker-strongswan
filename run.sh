@@ -28,6 +28,17 @@ if [ "$VPN_PSK" = "password" ] || [ "$VPN_PSK" = "" ]; then
 	echo "No VPN_PSK set! Generated a random PSK key: $VPN_PSK"
 fi
 
+if [ "$VPN_PASSWORD" = "$VPN_PSK" ]; then
+	echo "It is not recommended to use the same secret as password and PSK key!"
+fi
+
+cat > /etc/ppp/chap-secrets <<EOF
+# This file holds secrets for L2TP authentication.
+# Username  Server  Secret  Hosts
+
+"$VPN_USER" "*" "$VPN_PASSWORD" "*"
+EOF
+
 cat > /etc/ipsec.secrets <<EOF
 # This file holds shared secrets or RSA private keys for authentication.
 # RSA private key for this host, authenticating it to any other host
@@ -40,6 +51,11 @@ cat > /etc/ipsec.secrets <<EOF
 $VPN_USER : EAP "$VPN_PASSWORD"
 $VPN_USER : XAUTH "$VPN_PASSWORD"
 EOF
+
+if [ -f "/etc/ipsec.d/l2tp-secrets" ]; then
+	echo "Overwriting standard /etc/ppp/l2tp-secrets with /etc/ipsec.d/l2tp-secrets"
+	cp -f /etc/ipsec.d/l2tp-secrets /etc/ppp/l2tp-secrets
+fi
 
 if [ -f "/etc/ipsec.d/ipsec.secrets" ]; then
 	echo "Overwriting standard /etc/ipsec.secrets with /etc/ipsec.d/ipsec.secrets"
@@ -56,4 +72,13 @@ if [ -f "/conf/strongswan.conf" ]; then
 	cp -f /conf/strongswan.conf /etc/strongswan.conf
 fi
 
-ipsec start --nofork
+if [ -f "/etc/ipsec.d/xl2tpd.conf" ]; then
+	echo "Overwriting standard /etc/xl2tpd/xl2tpd.conf with /etc/ipsec.d/xl2tpd.conf"
+	cp -f /etc/ipsec.d/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
+fi
+
+echo "Starting XL2TPD process..."
+mkdir -p /var/run/xl2tpd
+/usr/sbin/xl2tpd -c /etc/xl2tpd/xl2tpd.conf
+
+ipsec start --nofork\

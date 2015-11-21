@@ -4,7 +4,8 @@ RUN mkdir -p /conf
 
 RUN apt-get update && apt-get install -y \
   libgmp-dev \
-  iptables
+  iptables \
+  xl2tpd
 
 ENV STRONGSWAN_VERSION 5.3.4
 
@@ -13,7 +14,6 @@ RUN mkdir -p /usr/src/strongswan \
 	| tar -zxC /usr/src/strongswan --strip-components 1 \
 	&& cd /usr/src/strongswan \
 	&& ./configure --prefix=/usr --sysconfdir=/etc \
-		--enable-kernel-libipsec \
 		--enable-eap-radius \
 		--enable-eap-mschapv2 \
 		--enable-eap-identity \
@@ -30,9 +30,14 @@ RUN mkdir -p /usr/src/strongswan \
 	&& make install \
 	&& rm -rf /usr/src/strongswan
 
-# Configuration files
+# Strongswan Configuration
 ADD ipsec.conf /etc/ipsec.conf
 ADD strongswan.conf /etc/strongswan.conf
+
+# XL2TPD Configuration
+ADD xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
+ADD options.xl2tpd /etc/ppp/options.xl2tpd
+
 ADD run.sh /run.sh
 
 # The password is later on replaced with a random string
@@ -41,6 +46,7 @@ ENV VPN_PASSWORD password
 ENV VPN_PSK password
 
 VOLUME ["/etc/ipsec.d"]
-EXPOSE 4500/udp 500/udp
+
+EXPOSE 4500/udp 500/udp 1701/udp
 
 CMD ["/run.sh"]
