@@ -1,0 +1,14 @@
+#!/bin/sh
+
+vpn_user=$1
+
+if [ -z ${vpn_user} ]; then
+	echo "Usage: $0 user"
+	exit 1
+fi
+
+touch /etc/ipsec.d/ipsec.secrets
+touch /etc/ipsec.d/l2tp-secrets
+
+sed -i "/${vpn_user} :/d" /etc/ipsec.d/ipsec.secrets
+sed -i "/\"${vpn_user}\" \"*\"/d" /etc/ipsec.d/l2tp-secrets
