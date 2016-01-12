@@ -1,0 +1,20 @@
+#!/bin/sh
+
+vpn_user=$1
+vpn_password=$2
+
+if [ -z ${vpn_user} ] || [ -z ${vpn_password} ]; then
+	echo "Usage: $0 user password"
+	exit 1
+fi
+
+vpn_deluser ${vpn_user}
+
+cat >> /etc/ipsec.d/l2tp-secrets <<EOF
+"${vpn_user}" "*" "${vpn_password}" "*"
+EOF
+
+cat >> /etc/ipsec.d/ipsec.secrets <<EOF
+${vpn_user} : EAP "${vpn_password}"
+${vpn_user} : XAUTH "${vpn_password}"
+EOF

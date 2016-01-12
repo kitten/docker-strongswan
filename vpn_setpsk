@@ -1,0 +1,15 @@
+#!/bin/sh
+
+psk=$1
+
+if [ -z ${psk} ]; then
+	echo "Usage: $0 psk"
+	exit 1
+fi
+
+vpn_unsetpsk
+
+touch /etc/ipsec.d/ipsec.secrets
+cat >> /etc/ipsec.d/ipsec.secrets <<EOF
+: PSK "${psk}"
+EOF

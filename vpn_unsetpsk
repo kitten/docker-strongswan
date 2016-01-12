@@ -1,0 +1,4 @@
+#!/bin/sh
+
+touch /etc/ipsec.d/ipsec.secrets
+sed '/: PSK/d' /etc/ipsec.d/ipsec.secrets

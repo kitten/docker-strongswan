@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -f "/etc/ipsec.d/l2tp-secrets" ]; then
+        cp -f /etc/ipsec.d/l2tp-secrets /etc/ppp/l2tp-secrets
+fi
+
+if [ -f "/etc/ipsec.d/ipsec.secrets" ]; then
+        cp -f /etc/ipsec.d/ipsec.secrets /etc/ipsec.secrets
+fi
+
+ipsec rereadsecrets
