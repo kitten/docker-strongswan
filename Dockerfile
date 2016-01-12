@@ -43,6 +43,7 @@ ADD vpn_adduser /usr/local/bin/vpn_adduser
 ADD vpn_deluser /usr/local/bin/vpn_deluser
 ADD vpn_setpsk /usr/local/bin/vpn_setpsk
 ADD vpn_unsetpsk /usr/local/bin/vpn_unsetpsk
+ADD vpn_apply /usr/local/bin/vpn_apply
 
 # The password is later on replaced with a random string
 ENV VPN_USER user
