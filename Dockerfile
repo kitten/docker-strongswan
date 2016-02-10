@@ -5,7 +5,8 @@ RUN mkdir -p /conf
 RUN apt-get update && apt-get install -y \
   libgmp-dev \
   iptables \
-  xl2tpd
+  xl2tpd \
+  module-init-tools
 
 ENV STRONGSWAN_VERSION 5.3.4
 
