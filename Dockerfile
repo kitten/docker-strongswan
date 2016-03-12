@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
   xl2tpd \
   module-init-tools
 
-ENV STRONGSWAN_VERSION 5.3.4
+ENV STRONGSWAN_VERSION 5.3.5
 
 RUN mkdir -p /usr/src/strongswan \
 	&& curl -SL "https://download.strongswan.org/strongswan-$STRONGSWAN_VERSION.tar.gz" \
@@ -27,7 +27,7 @@ RUN mkdir -p /usr/src/strongswan \
 		--enable-eap-dynamic \
 		--enable-xauth-eap \
 		--enable-openssl \
-	&& make \
+	&& make -j \
 	&& make install \
 	&& rm -rf /usr/src/strongswan
 
