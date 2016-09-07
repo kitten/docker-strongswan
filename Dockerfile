@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
   xl2tpd \
   module-init-tools
 
-ENV STRONGSWAN_VERSION 5.3.5
+ENV STRONGSWAN_VERSION 5.5.0
 
 RUN mkdir -p /usr/src/strongswan \
 	&& curl -SL "https://download.strongswan.org/strongswan-$STRONGSWAN_VERSION.tar.gz" \
