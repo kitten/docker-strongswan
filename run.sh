@@ -67,9 +67,9 @@ if [ -f "/etc/ipsec.d/ipsec.conf" ]; then
 	cp -f /etc/ipsec.d/ipsec.conf /etc/ipsec.conf
 fi
 
-if [ -f "/conf/strongswan.conf" ]; then
+if [ -f "/etc/ipsec.d/strongswan.conf" ]; then
 	echo "Overwriting standard /etc/strongswan.conf with /etc/ipsec.d/strongswan.conf"
-	cp -f /conf/strongswan.conf /etc/strongswan.conf
+	cp -f /etc/ipsec.d/strongswan.conf /etc/strongswan.conf
 fi
 
 if [ -f "/etc/ipsec.d/xl2tpd.conf" ]; then
