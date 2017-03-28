@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y \
   libgmp-dev \
   iptables \
   xl2tpd \
-  module-init-tools
+  module-init-tools \
+  supervisor
 
 ENV STRONGSWAN_VERSION 5.5.0
 ENV GPG_KEY 948F158A4E76A27BF3D07532DF42C170B34DBA77
@@ -44,6 +45,10 @@ ADD strongswan.conf /etc/strongswan.conf
 # XL2TPD Configuration
 ADD xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
 ADD options.xl2tpd /etc/ppp/options.xl2tpd
+
+# Supervisor config
+ADD supervisord.conf supervisord.conf
+ADD kill_supervisor.py /usr/bin/kill_supervisor.py
 
 ADD run.sh /run.sh
 ADD vpn_adduser /usr/local/bin/vpn_adduser
