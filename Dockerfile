@@ -26,7 +26,6 @@ RUN mkdir -p /usr/src/strongswan \
 		--enable-eap-mschapv2 \
 		--enable-eap-identity \
 		--enable-eap-md5 \
-		--enable-eap-mschapv2 \
 		--enable-eap-tls \
 		--enable-eap-ttls \
 		--enable-eap-peap \
