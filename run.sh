@@ -32,6 +32,7 @@ if [ "$VPN_PASSWORD" = "$VPN_PSK" ]; then
 	echo "It is not recommended to use the same secret as password and PSK key!"
 fi
 
+
 cat > /etc/ppp/l2tp-secrets <<EOF
 # This file holds secrets for L2TP authentication.
 # Username  Server  Secret  Hosts
@@ -54,27 +55,27 @@ EOF
 
 if [ -f "/etc/ipsec.d/l2tp-secrets" ]; then
 	echo "Overwriting standard /etc/ppp/l2tp-secrets with /etc/ipsec.d/l2tp-secrets"
-	cp -f /etc/ipsec.d/l2tp-secrets /etc/ppp/l2tp-secrets
+	( echo "cat <<EOF" ; cat /etc/ipsec.d/l2tp-secrets ; echo EOF ) | sh > /etc/ppp/l2tp-secrets
 fi
 
 if [ -f "/etc/ipsec.d/ipsec.secrets" ]; then
 	echo "Overwriting standard /etc/ipsec.secrets with /etc/ipsec.d/ipsec.secrets"
-	cp -f /etc/ipsec.d/ipsec.secrets /etc/ipsec.secrets
+	( echo "cat <<EOF" ; cat /etc/ipsec.d/ipsec.secrets ; echo EOF ) | sh > /etc/ipsec.secrets
 fi
 
 if [ -f "/etc/ipsec.d/ipsec.conf" ]; then
 	echo "Overwriting standard /etc/ipsec.conf with /etc/ipsec.d/ipsec.conf"
-	cp -f /etc/ipsec.d/ipsec.conf /etc/ipsec.conf
+	( echo "cat <<EOF" ; cat /etc/ipsec.d/ipsec.conf ; echo EOF ) | sh > /etc/ipsec.conf
 fi
 
 if [ -f "/etc/ipsec.d/strongswan.conf" ]; then
 	echo "Overwriting standard /etc/strongswan.conf with /etc/ipsec.d/strongswan.conf"
-	cp -f /etc/ipsec.d/strongswan.conf /etc/strongswan.conf
+	( echo "cat <<EOF" ; cat /etc/ipsec.d/strongswan.conf ; echo EOF ) | sh > /etc/strongswan.conf
 fi
 
 if [ -f "/etc/ipsec.d/xl2tpd.conf" ]; then
 	echo "Overwriting standard /etc/xl2tpd/xl2tpd.conf with /etc/ipsec.d/xl2tpd.conf"
-	cp -f /etc/ipsec.d/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
+	( echo "cat <<EOF" ; cat /etc/ipsec.d/xl2tpd.conf ; echo EOF ) | sh > /etc/xl2tpd/xl2tpd.conf
 fi
 
 mkdir -p /var/run/xl2tpd
